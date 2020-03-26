@@ -8,16 +8,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class LocalRestAPI {
 
     @PostMapping(value = "/multiple", consumes = { "multipart/form-data" })
-    public void singleFileUpload(@RequestParam("files") MultipartFile[] files, RedirectAttributes redirectAttributes) {
+    public String singleFileUpload(@RequestParam("files") MultipartFile[] files) {
 
+        List<String> strings = new ArrayList<>();
         for (MultipartFile file : files) {
             System.out.println(file.getOriginalFilename());
+            strings.add(file.getOriginalFilename());
         }
+        return "Files received are : -> "+ String.join(",", strings);
 
     }
 }
